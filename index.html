@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yiko — 你的话，换个语言，脱口而出。</title>
+<meta name="description" content="Yiko（一口）：AI 把你想说的中文变成母语者真实会说的英文或粤语，你按住跟读，直到脱口而出。零后端，BYOK，数据不出手机。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 108 108'%3E%3Crect width='108' height='108' rx='20' fill='%234A55A5'/%3E%3Crect x='28' y='44' width='8' height='20' rx='4' fill='%23fff'/%3E%3Crect x='42' y='34' width='8' height='40' rx='4' fill='%23fff'/%3E%3Crect x='56' y='24' width='8' height='60' rx='4' fill='%23fff'/%3E%3Crect x='70' y='38' width='8' height='32' rx='4' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..400&family=Noto+Sans+SC:wght@300;400;500;700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F6F3; --surface:#FFFFFF; --sunk:#EFEDE8; --border:#E6E2DB; --hairline:#EAE6DF;
+  --ink:#1B1A18; --ink2:#4E4A44; --ink3:#6E6A63; --faint:#9A958C; --faint2:#B5B0A7;
+  --accent:oklch(0.50 0.10 268); --accent-deep:oklch(0.42 0.10 268);
+  --d-paper:#121213; --d-surface:#1B1B1D; --d-sunk:#26262A; --d-border:#2C2C2E;
+  --d-ink:#F0EEEA; --d-ink2:#C6C2BB; --d-ink3:#9B9790; --d-faint:#7E7A74;
+  --sans:'Noto Sans SC','PingFang SC',sans-serif;
+  --serif:'Newsreader',Georgia,serif;
+  --label:'Instrument Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:400;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1440px;margin:0 auto;padding:0 72px}
+.eyebrow{font:600 11px var(--label);letter-spacing:.16em;color:var(--faint)}
+.hl{background:oklch(0.50 0.10 268 / .09);box-shadow:inset 0 -2px 0 oklch(0.50 0.10 268 / .45);border-radius:5px;padding:0 3px;color:var(--accent-deep)}
+
+/* nav */
+nav{border-bottom:1px solid var(--hairline)}
+.nav-in{height:78px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:baseline;gap:11px}
+.logo b{font:500 20px var(--sans);letter-spacing:.04em}
+.logo span{font:400 17px var(--label);color:var(--ink3)}
+.nav-links{display:flex;align-items:center;gap:34px;font:400 13.5px var(--sans);color:var(--ink3)}
+.nav-cta{font:500 13px var(--sans);color:var(--ink);border:1px solid #D8D3CA;padding:8px 16px;border-radius:9px}
+.nav-cta:hover{background:var(--sunk)}
+
+/* hero */
+.hero{display:flex;gap:72px;align-items:flex-start;padding:82px 0 74px}
+.hero-l{width:520px;flex:none;display:flex;flex-direction:column;gap:26px}
+h1{font:400 52px/1.28 var(--sans);letter-spacing:.005em}
+.en-slogan{font:400 13.5px var(--label);color:var(--faint);letter-spacing:.02em}
+.hero-sub{font:300 16px/1.85 var(--sans);color:var(--ink2);max-width:460px}
+.cta-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.btn-main{height:62px;padding:0 34px;border-radius:31px;background:var(--accent);box-shadow:0 10px 26px oklch(0.50 0.10 268 / .3);display:inline-flex;align-items:center;gap:12px;transition:transform .15s}
+.btn-main:hover{transform:translateY(-1px)}
+.btn-main b{font:500 17px var(--sans);color:#fff;letter-spacing:.04em}
+.btn-main span{font:400 12px var(--label);color:#fff;opacity:.62}
+.ios-note{display:flex;flex-direction:column;gap:3px;font:400 12.5px var(--sans);color:var(--ink3)}
+.ios-note a{border-bottom:1px solid #D8D3CA;padding-bottom:2px}
+.cta-fine{font:300 12px var(--sans);color:var(--faint)}
+
+/* demo card */
+.hero-r{flex:1;min-width:0;display:flex;flex-direction:column;gap:16px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:18px}
+.demo{padding:30px 32px;display:flex;flex-direction:column;gap:20px}
+.demo-top{display:flex;align-items:center;justify-content:space-between}
+.demo-top i{font:400 12px var(--sans);font-style:normal;color:var(--faint)}
+.demo-top b{font:600 10px var(--label);letter-spacing:.12em;color:var(--faint)}
+.demo-zh{font:400 17px/1.7 var(--sans);color:var(--ink2)}
+.demo hr{border:0;height:1px;background:var(--sunk)}
+.demo-en{font:400 34px/1.42 var(--serif);letter-spacing:-.01em}
+.why{display:flex;gap:11px;align-items:flex-start}
+.why b{font:600 10px var(--label);letter-spacing:.12em;color:var(--accent);padding-top:4px}
+.why p{font:300 13.5px/1.7 var(--sans);color:var(--ink2)}
+.audio{display:flex;align-items:center;gap:16px;padding:14px 16px;background:var(--paper);border-radius:14px}
+.play{width:40px;height:40px;flex:none;border-radius:20px;background:var(--ink);display:flex;align-items:center;justify-content:center}
+.play::after{content:'';width:0;height:0;border-left:10px solid var(--paper);border-top:7px solid transparent;border-bottom:7px solid transparent;margin-left:3px}
+.audio-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.audio-mid i{font:400 11.5px var(--sans);font-style:normal;color:var(--ink3)}
+.wave{display:flex;align-items:center;gap:3px;height:22px;color:var(--ink)}
+.wave s{width:2.5px;border-radius:2px;background:currentColor;opacity:.26;text-decoration:none;display:block}
+.speed{flex:none;display:flex;background:var(--sunk);border-radius:9px;padding:2px;font:600 11px var(--label)}
+.speed u{text-decoration:none;color:var(--faint);padding:6px 9px;border-radius:7px}
+.speed u.on{color:var(--ink);background:#fff}
+.hold{height:74px;border-radius:37px;background:oklch(0.50 0.10 268 / .1);border:1px solid oklch(0.50 0.10 268 / .22);display:flex;align-items:center;justify-content:center;gap:14px}
+.hold .wave{height:26px;color:var(--accent)}
+.hold .wave s{width:3px;opacity:.7}
+.hold b{font:500 17px var(--sans);color:var(--accent-deep);letter-spacing:.06em}
+.mini-row{display:flex;gap:16px}
+.mini{flex:1;padding:18px 20px;display:flex;flex-direction:column;gap:9px;border-radius:14px}
+.mini i{font:400 11.5px var(--sans);font-style:normal;color:var(--faint)}
+.mini .en{font:400 19px/1.4 var(--serif)}
+.mini .zh-big{font:400 19px/1.4 var(--sans)}
+.mini p{font:300 11.5px/1.6 var(--sans);color:var(--faint)}
+.mini .tag{font:600 10px var(--label);letter-spacing:.12em;color:var(--faint)}
+.mini-top{display:flex;align-items:center;justify-content:space-between}
+
+/* features */
+.features{background:var(--surface);border-top:1px solid var(--hairline);padding:72px 0 76px}
+.feat-head{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin-bottom:44px}
+.feat-head h2{font:400 34px/1.4 var(--sans)}
+.feat-head p{font:300 13.5px/1.8 var(--sans);color:var(--ink3);max-width:330px;text-align:right}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.feat{display:flex;flex-direction:column;gap:13px;padding:26px;background:var(--paper);border-radius:16px}
+.feat .no{font:600 10px var(--label);letter-spacing:.14em;color:var(--faint)}
+.feat h3{font:400 20px/1.5 var(--sans)}
+.feat p{font:300 13.5px/1.85 var(--sans);color:var(--ink2)}
+.wordcard{display:flex;flex-direction:column;gap:5px;padding:13px 15px;background:var(--surface);border:1px solid var(--border);border-radius:11px;margin-top:4px}
+.wordcard .w{display:flex;align-items:baseline;gap:8px}
+.wordcard .w b{font:400 17px var(--serif);font-weight:400}
+.wordcard .w span{font:400 11px var(--label);color:var(--faint)}
+.wordcard p{font:300 11.5px/1.5 var(--sans);color:var(--faint)}
+.liblist{margin-top:4px}
+.librow{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--border)}
+.librow span{flex:1;min-width:0;font:400 13px var(--serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.librow i{font:400 10.5px var(--label);font-style:normal;color:var(--faint2)}
+.feat .wave{height:24px;color:var(--accent);padding-top:4px}
+.feat .wave s{opacity:.6}
+
+/* privacy dark */
+.privacy{background:var(--d-paper);color:var(--d-ink);padding:74px 0}
+.priv-in{display:flex;gap:80px;align-items:flex-start}
+.priv-l{flex:1;display:flex;flex-direction:column;gap:22px}
+.priv-l .eyebrow{color:var(--d-faint)}
+.priv-l h2{font:400 36px/1.45 var(--sans)}
+.priv-l>p{font:300 14.5px/1.9 var(--sans);color:var(--d-ink2);max-width:520px}
+.chips{display:flex;flex-wrap:wrap;gap:9px;padding-top:6px}
+.chip{font:400 13px var(--label);color:var(--d-ink);background:#1F1F21;border:1px solid var(--d-border);padding:9px 15px;border-radius:9px}
+.chip.dash{border-style:dashed;color:var(--d-ink2);font-family:var(--sans)}
+.flow{width:420px;flex:none;padding:26px 28px;background:var(--d-surface);border:1px solid var(--d-border);border-radius:16px}
+.flow h4{font:400 11.5px var(--sans);font-weight:400;color:var(--d-faint);padding-bottom:16px}
+.frow{display:flex;align-items:center;gap:14px;padding:6px 0}
+.frow .dot{width:9px;height:9px;flex:none;border-radius:5px;background:oklch(0.62 0.11 268)}
+.frow .dot.grey{background:#4A4A50}
+.frow .dot.none{background:transparent;border:1px dashed #6E6A68}
+.frow b{font:400 13.5px var(--sans);font-weight:400}
+.frow .line{flex:1;height:1px;background:var(--d-border)}
+.frow i{font:300 11.5px var(--sans);font-style:normal;color:var(--d-faint)}
+.frow.off{opacity:.4}
+.frow.off b{text-decoration:line-through}
+.flow hr{border:0;height:1px;background:var(--d-border);margin:22px 0 18px}
+.flow>p{font:300 12.5px/1.8 var(--sans);color:var(--d-ink3)}
+
+/* footer cta */
+.fin{padding:78px 0 84px;display:flex;flex-direction:column;gap:30px;align-items:center;text-align:center}
+.fin h2{font:400 40px/1.4 var(--sans)}
+.fin-ctas{display:flex;align-items:center;gap:22px;flex-wrap:wrap;justify-content:center}
+.ios-pill{display:flex;align-items:center;gap:12px;height:64px;padding:0 22px;border:1px solid #DDD8D0;border-radius:32px;font:400 13.5px var(--sans);color:var(--faint)}
+.ios-pill a{font:500 12.5px var(--sans);color:var(--ink);background:var(--sunk);padding:8px 14px;border-radius:20px}
+.yiko{font:400 13px var(--label);color:var(--faint);letter-spacing:.34em;padding-top:26px}
+.yiko-sub{font:300 12px var(--label);color:var(--faint2);letter-spacing:.14em}
+.foot{display:flex;align-items:center;gap:24px;padding-top:14px;font:400 12px var(--sans);color:var(--faint2)}
+.foot em{width:1px;height:11px;background:#DDD8D0;font-style:normal}
+
+/* mobile */
+@media (max-width: 900px){
+  .wrap{padding:0 22px}
+  .nav-in{height:58px}
+  .logo b{font-size:17px}.logo span{font-size:14px}
+  .nav-links{display:none}
+  .nav-mob{display:block;font:400 12px var(--sans);color:var(--ink3)}
+  .hero{flex-direction:column;padding:34px 0 38px;gap:20px}
+  .hero-l{width:100%;gap:20px}
+  h1{font-size:31px;line-height:1.4}
+  h1 br{display:none}
+  .hero-sub{font-size:14px}
+  .demo{padding:20px;gap:15px}
+  .demo-en{font-size:23px;line-height:1.45}
+  .btn-main{width:100%;height:58px;justify-content:center}
+  .cta-row{flex-direction:column;align-items:stretch;gap:11px}
+  .ios-note{flex-direction:row;justify-content:center;gap:8px}
+  .features{padding:34px 0 38px}
+  .feat-head{flex-direction:column;align-items:flex-start;gap:12px;margin-bottom:22px}
+  .feat-head h2{font-size:24px}
+  .feat-head h2 br{display:none}
+  .feat-head p{text-align:left}
+  .grid3{grid-template-columns:1fr;gap:14px}
+  .feat{padding:20px}
+  .feat h3{font-size:17px}
+  .privacy{padding:34px 0 38px}
+  .priv-in{flex-direction:column;gap:18px}
+  .priv-l h2{font-size:24px}
+  .priv-l h2 br{display:none}
+  .flow{width:100%}
+  .fin{padding:38px 0 42px;gap:18px}
+  .fin h2{font-size:24px}
+  .mini-row{flex-direction:column}
+}
+@media (min-width: 901px){ .nav-mob{display:none} }
+</style>
+</head>
+<body>
+
+<nav><div class="wrap nav-in">
+  <div class="logo"><b>一口</b><span>Yiko</span></div>
+  <div class="nav-links">
+    <a href="#how">怎么用</a>
+    <a href="#privacy">隐私与 BYOK</a>
+    <span>支持英语 · 粤语</span>
+    <a class="nav-cta" href="#download">下载内测版</a>
+  </div>
+  <div class="nav-mob">英语 · 粤语</div>
+</div></nav>
+
+<header class="wrap hero">
+  <div class="hero-l">
+    <div class="eyebrow">ANDROID 内测 · V0.1.0</div>
+    <h1>你的话，<br>换个语言，<br>脱口而出。</h1>
+    <div class="en-slogan">Your words. New language. Out loud.</div>
+    <p class="hero-sub">你在会上没说出来的那句话，先在这里说一遍。AI 把你想说的中文变成母语者真实会说的英文或粤语，你按住跟读，然后听自己和母语者的差别。没有评分，没有红叉，没人在听。</p>
+    <div class="cta-row" id="download">
+      <a class="btn-main" href="https://github.com/domainvip/yiko-site/releases/latest/download/yiko.apk"><b>下载 Android 内测版</b><span>APK · 11 MB</span></a>
+      <div class="ios-note"><span>iOS 开发中</span><a href="mailto:hi@yiko.app?subject=iOS%20waitlist">留个邮箱，出了通知你</a></div>
+    </div>
+    <div class="cta-fine">v0.1.0 · 需要你自己的 API key，两分钟配好</div>
+  </div>
+
+  <div class="hero-r">
+    <div class="card demo">
+      <div class="demo-top"><i>你打进去的中文</i><b>EN</b></div>
+      <div class="demo-zh">这周排期满了，最快下周三，急的话我可以调一下。</div>
+      <hr>
+      <div class="demo-en">We're <span class="hl">fully booked</span> this week — Wednesday next week is the earliest, but I can move things around if it's urgent.</div>
+      <div class="why"><b>WHY</b><p>「排期满」口语里说 fully booked，比 the schedule is full 自然。</p></div>
+      <div class="audio">
+        <div class="play"></div>
+        <div class="audio-mid"><i>母语者发音</i><div class="wave" data-n="52" data-seed="7331" data-max="22"></div></div>
+        <div class="speed"><u>0.7x</u><u class="on">1x</u></div>
+      </div>
+      <div class="hold"><div class="wave" data-n="16" data-seed="4519" data-max="26"></div><b>按住跟读</b></div>
+    </div>
+    <div class="mini-row">
+      <div class="card mini">
+        <i>这个需求我们对齐一下。</i>
+        <div class="en">Let's <span class="hl">sync up</span> on this feature.</div>
+        <p>align 偏「达成一致」，同步信息用 sync up。</p>
+      </div>
+      <div class="card mini">
+        <div class="mini-top"><i>谢谢，去冰。</i><span class="tag">粤语</span></div>
+        <div class="zh-big">唔該，走冰。</div>
+        <p style="font-family:var(--label)">m4 goi1, zau2 bing1</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="features" id="how"><div class="wrap">
+  <div class="feat-head">
+    <h2>练的是你自己的话，<br>不是别人的课程表。</h2>
+    <p>被动词汇量 5000 的人不缺知识，缺的是把话说出口那一次。一口只做这一件事。</p>
+  </div>
+  <div class="grid3">
+    <div class="feat">
+      <div class="no">01 · 开口</div>
+      <h3>按住跟读，听自己和母语者的差别</h3>
+      <p>松手就能交替回放两条录音。差别你自己听得出来，界面不下判决——没有分数，没有红叉。</p>
+      <div class="wave" data-n="40" data-seed="1277" data-max="18"></div>
+    </div>
+    <div class="feat">
+      <div class="no">02 · 记词</div>
+      <h3>点句子里的词，它带着整句一起收好</h3>
+      <p>生词本里的词永远不脱离你自己的那句话，所以你记住的是用法，不是词条。</p>
+      <div class="wordcard">
+        <div class="w"><b>sync up</b><span>/ˌsɪŋk ˈʌp/</span></div>
+        <p>Let's sync up on this feature.</p>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="no">03 · 攒下来</div>
+      <h3>你的语料库，全是你说过的话</h3>
+      <p>每练完一句就留在这里，只记跟读次数。开会前翻一遍，比背任何教材管用。</p>
+      <div class="liblist">
+        <div class="librow"><span>We're fully booked this week — Wednesday…</span><i>7×</i></div>
+        <div class="librow"><span>Let's sync up on this feature.</span><i>3×</i></div>
+        <div class="librow"><span>This one's not on me.</span><i>12×</i></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section class="privacy" id="privacy"><div class="wrap priv-in">
+  <div class="priv-l">
+    <div class="eyebrow">零后端 · BYOK</div>
+    <h2>你的句子和录音，<br>从来没离开这台手机。</h2>
+    <p>一口没有服务器，也没有账号。你填自己的 API key，请求从你的手机直接发给模型；语料库、生词本、每一段录音都存在本地。会上说不出口那句话是你的私事，我们没打算知道。</p>
+    <div class="chips">
+      <span class="chip">Grok</span><span class="chip">OpenAI</span><span class="chip">DeepSeek</span><span class="chip">OpenRouter</span><span class="chip dash">自定义 base URL</span>
+    </div>
+  </div>
+  <div class="flow">
+    <h4>数据流向</h4>
+    <div class="frow"><span class="dot"></span><b>你的手机</b><span class="line"></span><i>中文 / 录音</i></div>
+    <div class="frow"><span class="dot grey"></span><b style="font-family:var(--label)">你选的模型 API</b><span class="line"></span><i>英文 / 粤语</i></div>
+    <div class="frow off"><span class="dot none"></span><b>一口的服务器</b><span class="line"></span><i>不存在</i></div>
+    <hr>
+    <p>卸载 app 就等于删掉全部数据。想备份，导出一个文件自己收着。</p>
+  </div>
+</div></section>
+
+<section class="wrap fin">
+  <h2>下一次开会前，先说一遍。</h2>
+  <div class="fin-ctas">
+    <a class="btn-main" href="https://github.com/domainvip/yiko-site/releases/latest/download/yiko.apk"><b>下载 Android 内测版</b><span>v0.1.0 · 11 MB</span></a>
+    <div class="ios-pill"><span>iOS 开发中 —</span><a href="mailto:hi@yiko.app?subject=iOS%20waitlist">通知我</a></div>
+  </div>
+  <div class="yiko">Y·I·K·O</div>
+  <div class="yiko-sub">Yours · Intelligent · Kept · Outspoken</div>
+  <div class="foot"><span>一口 Yiko · yiko.app</span><em></em><span>英语 · 粤语</span><em></em><span>无账号 · 无服务器</span></div>
+</section>
+
+<script>
+// 与设计稿同款的确定性伪随机波形
+document.querySelectorAll('.wave').forEach(function(el){
+  var n = +el.dataset.n, s = +el.dataset.seed, max = +el.dataset.max;
+  for (var i = 0; i < n; i++) {
+    s = (s * 9301 + 49297) % 233280;
+    var env = Math.sin(i / (n - 1) * Math.PI) * 0.55 + 0.45;
+    var h = Math.round(3 + (max - 3) * (s / 233280) * env);
+    var bar = document.createElement('s');
+    bar.style.height = h + 'px';
+    el.appendChild(bar);
+  }
+});
+</script>
+</body>
+</html>
