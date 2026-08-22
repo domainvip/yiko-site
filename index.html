@@ -28,12 +28,21 @@ a{color:inherit;text-decoration:none}
 .eyebrow{font:600 11px var(--label);letter-spacing:.16em;color:var(--faint)}
 .hl{background:oklch(0.50 0.10 268 / .09);box-shadow:inset 0 -2px 0 oklch(0.50 0.10 268 / .45);border-radius:5px;padding:0 3px;color:var(--accent-deep)}
 
+/* 动效（design v2）：波形律动 / 滚入渐起 / hero 例句淡入 */
+@keyframes yk-bar{0%,100%{transform:scaleY(.72)}50%{transform:scaleY(1.22)}}
+@keyframes yk-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes yk-fade{from{opacity:0}to{opacity:1}}
+.reveal{opacity:0}
+.reveal.in{animation:yk-rise .7s cubic-bezier(.2,.7,.3,1) forwards}
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1}.reveal.in{animation:none}
+  .wave s{animation:none!important}
+}
+
 /* nav */
 nav{border-bottom:1px solid var(--hairline)}
 .nav-in{height:78px;display:flex;align-items:center;justify-content:space-between}
-.logo{display:flex;align-items:baseline;gap:11px}
 .logo b{font:500 20px var(--label);letter-spacing:.03em}
-.logo span{font:400 17px var(--label);color:var(--ink3)}
 .nav-links{display:flex;align-items:center;gap:34px;font:400 13.5px var(--sans);color:var(--ink3)}
 .nav-cta{font:500 13px var(--sans);color:var(--ink);border:1px solid #D8D3CA;padding:8px 16px;border-radius:9px}
 .nav-cta:hover{background:var(--sunk)}
@@ -53,16 +62,21 @@ h1{font:400 52px/1.28 var(--sans);letter-spacing:.005em}
 .ios-note a{border-bottom:1px solid #D8D3CA;padding-bottom:2px}
 .cta-fine{font:300 12px var(--sans);color:var(--faint)}
 
-/* demo card */
+/* hero 转换演示卡：4.2s 自动轮换 A / B / 粤语，右上角可点切 */
 .hero-r{flex:1;min-width:0;display:flex;flex-direction:column;gap:16px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:18px}
-.demo{padding:30px 32px;display:flex;flex-direction:column;gap:20px}
+.demo{padding:30px 32px;display:flex;flex-direction:column;gap:20px;position:relative}
 .demo-top{display:flex;align-items:center;justify-content:space-between}
 .demo-top i{font:400 12px var(--sans);font-style:normal;color:var(--faint)}
-.demo-top b{font:600 10px var(--label);letter-spacing:.12em;color:var(--faint)}
+.demo-tabs{display:flex;gap:6px}
+.demo-tabs u{text-decoration:none;font:600 10px var(--label);letter-spacing:.1em;color:var(--faint);padding:4px 9px;border-radius:12px;cursor:pointer}
+.demo-tabs u.on{color:var(--accent-deep);background:oklch(0.50 0.10 268 / .09)}
+.demo-body{display:flex;flex-direction:column;gap:20px;animation:yk-fade .45s ease}
 .demo-zh{font:400 17px/1.7 var(--sans);color:var(--ink2)}
 .demo hr{border:0;height:1px;background:var(--sunk)}
-.demo-en{font:400 34px/1.42 var(--serif);letter-spacing:-.01em}
+.demo-en{font:400 34px/1.42 var(--serif);letter-spacing:-.01em;min-height:96px}
+.demo-en.yue{font-family:var(--sans);font-size:30px}
+.demo-jyut{font:400 13px var(--label);color:var(--faint);letter-spacing:.02em;margin-top:-10px}
 .why{display:flex;gap:11px;align-items:flex-start}
 .why b{font:600 10px var(--label);letter-spacing:.12em;color:var(--accent);padding-top:4px}
 .why p{font:300 13.5px/1.7 var(--sans);color:var(--ink2)}
@@ -72,7 +86,7 @@ h1{font:400 52px/1.28 var(--sans);letter-spacing:.005em}
 .audio-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
 .audio-mid i{font:400 11.5px var(--sans);font-style:normal;color:var(--ink3)}
 .wave{display:flex;align-items:center;gap:3px;height:22px;color:var(--ink)}
-.wave s{width:2.5px;border-radius:2px;background:currentColor;opacity:.26;text-decoration:none;display:block}
+.wave s{width:2.5px;border-radius:2px;background:currentColor;opacity:.26;text-decoration:none;display:block;transform-origin:center;animation:yk-bar 2.6s ease-in-out infinite}
 .speed{flex:none;display:flex;background:var(--sunk);border-radius:9px;padding:2px;font:600 11px var(--label)}
 .speed u{text-decoration:none;color:var(--faint);padding:6px 9px;border-radius:7px}
 .speed u.on{color:var(--ink);background:#fff}
@@ -80,14 +94,6 @@ h1{font:400 52px/1.28 var(--sans);letter-spacing:.005em}
 .hold .wave{height:26px;color:var(--accent)}
 .hold .wave s{width:3px;opacity:.7}
 .hold b{font:500 17px var(--sans);color:var(--accent-deep);letter-spacing:.06em}
-.mini-row{display:flex;gap:16px}
-.mini{flex:1;padding:18px 20px;display:flex;flex-direction:column;gap:9px;border-radius:14px}
-.mini i{font:400 11.5px var(--sans);font-style:normal;color:var(--faint)}
-.mini .en{font:400 19px/1.4 var(--serif)}
-.mini .zh-big{font:400 19px/1.4 var(--sans)}
-.mini p{font:300 11.5px/1.6 var(--sans);color:var(--faint)}
-.mini .tag{font:600 10px var(--label);letter-spacing:.12em;color:var(--faint)}
-.mini-top{display:flex;align-items:center;justify-content:space-between}
 
 /* features */
 .features{background:var(--surface);border-top:1px solid var(--hairline);padding:72px 0 76px}
@@ -108,8 +114,54 @@ h1{font:400 52px/1.28 var(--sans);letter-spacing:.005em}
 .librow{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--border)}
 .librow span{flex:1;min-width:0;font:400 13px var(--serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .librow i{font:400 10.5px var(--label);font-style:normal;color:var(--faint2)}
-.feat .wave{height:24px;color:var(--accent);padding-top:4px}
+.feat .wave{height:24px;color:var(--accent)}
 .feat .wave s{opacity:.6}
+
+/* app 三屏展示区（design v2）：画板设计的 HTML 复现，非截图 */
+.showcase{padding:76px 0 82px;border-top:1px solid var(--hairline)}
+.show-head{display:flex;flex-direction:column;gap:10px;margin-bottom:48px;text-align:center;align-items:center}
+.show-head h2{font:400 36px/1.4 var(--sans)}
+.show-head p{font:300 14px/1.8 var(--sans);color:var(--ink3);max-width:440px}
+.phones{display:flex;gap:44px;justify-content:center;align-items:flex-start}
+.phone-col{display:flex;flex-direction:column;gap:14px;align-items:center}
+.phone-cap{font:400 12.5px var(--sans);color:var(--faint)}
+.phone{width:300px;height:620px;background:var(--paper);border:1px solid var(--border);border-radius:26px;overflow:hidden;box-shadow:0 14px 44px rgba(27,26,24,.12);display:flex;flex-direction:column;font-size:12px}
+.p-status{height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 16px;font:600 10px var(--label);color:var(--ink3)}
+.p-body{flex:1;min-height:0;display:flex;flex-direction:column;padding:0 16px;gap:12px;overflow:hidden}
+.p-nav{height:46px;flex:none;display:flex;border-top:1px solid var(--hairline);background:var(--surface)}
+.p-nav b{flex:1;display:flex;align-items:center;justify-content:center;font:400 11px var(--sans);color:var(--faint);position:relative;font-weight:400}
+.p-nav b.on{color:var(--ink)}
+.p-nav b.on::after{content:'';position:absolute;bottom:6px;width:18px;height:2px;border-radius:1px;background:var(--accent)}
+.p-seg{display:flex;background:var(--sunk);border-radius:8px;padding:2px;font:600 10px var(--label)}
+.p-seg u{text-decoration:none;color:var(--faint);padding:4px 8px;border-radius:6px}
+.p-seg u.on{color:var(--ink);background:#fff}
+.p-h1{font:400 19px/1.45 var(--sans)}
+.p-input{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px;font:300 11.5px/1.6 var(--sans);color:var(--faint2);min-height:64px}
+.p-mic{width:118px;height:118px;border-radius:50%;background:var(--accent);align-self:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;box-shadow:0 10px 24px oklch(0.50 0.10 268 / .3)}
+.p-mic b{font:500 12.5px var(--sans);color:#fff;letter-spacing:.06em;font-weight:500}
+.p-mic .wave{height:14px;color:#fff}.p-mic .wave s{width:2px;opacity:.85}
+.p-zh{font:300 10.5px/1.6 var(--sans);color:var(--faint)}
+.p-en{font:400 20px/1.4 var(--serif)}
+.p-flash{align-self:flex-start;background:var(--ink);color:var(--paper);border-radius:14px;padding:5px 10px;font:400 10px var(--sans);display:flex;gap:8px;align-items:center}
+.p-flash u{text-decoration:none;color:var(--faint2)}
+.p-why{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:9px 11px;display:flex;gap:7px}
+.p-why b{font:600 8px var(--label);letter-spacing:.1em;color:var(--accent);padding-top:2px}
+.p-why p{font:300 10px/1.6 var(--sans);color:var(--ink2)}
+.p-audio{display:flex;align-items:center;gap:9px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:10px}
+.p-audio .p-play{width:24px;height:24px;flex:none;border-radius:12px;background:var(--ink);display:flex;align-items:center;justify-content:center}
+.p-audio .p-play::after{content:'';width:0;height:0;border-left:6px solid var(--paper);border-top:4px solid transparent;border-bottom:4px solid transparent;margin-left:2px}
+.p-audio .wave{height:13px;flex:1}.p-audio .wave s{width:2px}
+.p-hold{height:46px;border-radius:23px;background:oklch(0.50 0.10 268 / .1);border:1px solid oklch(0.50 0.10 268 / .22);display:flex;align-items:center;justify-content:center;gap:8px}
+.p-hold b{font:500 12px var(--sans);color:var(--accent-deep);font-weight:500}
+.p-hold .wave{height:13px;color:var(--accent)}.p-hold .wave s{width:2px;opacity:.7}
+.p-word{font:400 30px/1.15 var(--serif)}
+.p-ipa{font:400 11px var(--label);color:var(--ink3)}
+.p-src{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:11px 12px;display:flex;flex-direction:column;gap:6px}
+.p-src i{font:400 9.5px var(--sans);font-style:normal;color:var(--faint)}
+.p-src .s-en{font:400 13.5px/1.4 var(--serif)}
+.p-src .s-zh{font:300 10px var(--sans);color:var(--faint)}
+.p-row{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:9px 11px;font:400 10.5px var(--sans);color:var(--ink2)}
+.p-fill{flex:1}
 
 /* privacy dark */
 .privacy{background:var(--d-paper);color:var(--d-ink);padding:74px 0}
@@ -150,7 +202,7 @@ h1{font:400 52px/1.28 var(--sans);letter-spacing:.005em}
 @media (max-width: 900px){
   .wrap{padding:0 22px}
   .nav-in{height:58px}
-  .logo b{font-size:17px}.logo span{font-size:14px}
+  .logo b{font-size:17px}
   .nav-links{display:none}
   .nav-mob{display:block;font:400 12px var(--sans);color:var(--ink3)}
   .hero{flex-direction:column;padding:34px 0 38px;gap:20px}
@@ -159,7 +211,8 @@ h1{font:400 52px/1.28 var(--sans);letter-spacing:.005em}
   h1 br{display:none}
   .hero-sub{font-size:14px}
   .demo{padding:20px;gap:15px}
-  .demo-en{font-size:23px;line-height:1.45}
+  .demo-en{font-size:23px;line-height:1.45;min-height:0}
+  .demo-en.yue{font-size:21px}
   .btn-main{width:100%;height:58px;justify-content:center}
   .cta-row{flex-direction:column;align-items:stretch;gap:11px}
   .ios-note{flex-direction:row;justify-content:center;gap:8px}
@@ -171,6 +224,11 @@ h1{font:400 52px/1.28 var(--sans);letter-spacing:.005em}
   .grid3{grid-template-columns:1fr;gap:14px}
   .feat{padding:20px}
   .feat h3{font-size:17px}
+  .showcase{padding:36px 0 42px}
+  .show-head{margin-bottom:24px}
+  .show-head h2{font-size:24px}
+  .phones{justify-content:flex-start;overflow-x:auto;gap:20px;padding:4px 2px 16px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+  .phone-col{scroll-snap-align:center;flex:none}
   .privacy{padding:34px 0 38px}
   .priv-in{flex-direction:column;gap:18px}
   .priv-l h2{font-size:24px}
@@ -178,7 +236,6 @@ h1{font:400 52px/1.28 var(--sans);letter-spacing:.005em}
   .flow{width:100%}
   .fin{padding:38px 0 42px;gap:18px}
   .fin h2{font-size:24px}
-  .mini-row{flex-direction:column}
 }
 @media (min-width: 901px){ .nav-mob{display:none} }
 </style>
@@ -189,6 +246,7 @@ h1{font:400 52px/1.28 var(--sans);letter-spacing:.005em}
   <div class="logo"><b>Yiko</b></div>
   <div class="nav-links">
     <a href="#how">怎么用</a>
+    <a href="#screens">看看界面</a>
     <a href="#privacy">隐私与 BYOK</a>
     <span>支持英语 · 粤语</span>
     <a class="nav-cta" href="#download">下载内测版</a>
@@ -197,8 +255,8 @@ h1{font:400 52px/1.28 var(--sans);letter-spacing:.005em}
 </div></nav>
 
 <header class="wrap hero">
-  <div class="hero-l">
-    <div class="eyebrow">ANDROID 内测 · V0.2.0</div>
+  <div class="hero-l reveal in">
+    <div class="eyebrow">ANDROID 内测 · V0.2.1</div>
     <h1>你的话，<br>换个语言，<br>脱口而出。</h1>
     <div class="en-slogan">Your words. New language. Out loud.</div>
     <p class="hero-sub">你在会上没说出来的那句话，先在这里说一遍。AI 把你想说的中文变成母语者真实会说的英文或粤语，你按住跟读，然后听自己和母语者的差别。没有评分，没有红叉，没人在听。</p>
@@ -206,51 +264,35 @@ h1{font:400 52px/1.28 var(--sans);letter-spacing:.005em}
       <a class="btn-main" href="https://dl.yiko.app/yiko.apk"><b>下载 Android 内测版</b><span>APK · 11 MB</span></a>
       <div class="ios-note"><span>iOS 开发中</span><a href="mailto:hi@yiko.app?subject=iOS%20waitlist">留个邮箱，出了通知你</a></div>
     </div>
-    <div class="cta-fine">v0.2.0 · 支持英语与粤语 · 需要你自己的 API key</div>
+    <div class="cta-fine">v0.2.1 · 支持英语与粤语 · 需要你自己的 API key</div>
   </div>
 
-  <div class="hero-r">
-    <div class="card demo">
-      <div class="demo-top"><i>你打进去的中文</i><b>EN</b></div>
-      <div class="demo-zh">这周排期满了，最快下周三，急的话我可以调一下。</div>
-      <hr>
-      <div class="demo-en">We're <span class="hl">fully booked</span> this week — Wednesday next week is the earliest, but I can move things around if it's urgent.</div>
-      <div class="why"><b>WHY</b><p>「排期满」口语里说 fully booked，比 the schedule is full 自然。</p></div>
-      <div class="audio">
-        <div class="play"></div>
-        <div class="audio-mid"><i>母语者发音</i><div class="wave" data-n="52" data-seed="7331" data-max="22"></div></div>
-        <div class="speed"><u>0.7x</u><u class="on">1x</u></div>
+  <div class="hero-r reveal in">
+    <div class="card demo" id="demo-card">
+      <div class="demo-top">
+        <i>你打进去的中文</i>
+        <div class="demo-tabs" id="demo-tabs">
+          <u class="on" data-i="0">EN</u><u data-i="1">EN</u><u data-i="2">粤</u>
+        </div>
       </div>
-      <div class="hold"><div class="wave" data-n="16" data-seed="4519" data-max="26"></div><b>按住跟读</b></div>
-    </div>
-    <div class="mini-row">
-      <div class="card mini">
-        <i>这个需求我们对齐一下。</i>
-        <div class="en">Let's <span class="hl">sync up</span> on this feature.</div>
-        <p>align 偏「达成一致」，同步信息用 sync up。</p>
-      </div>
-      <div class="card mini">
-        <div class="mini-top"><i>谢谢，去冰。</i><span class="tag">粤语</span></div>
-        <div class="zh-big">唔該，走冰。</div>
-        <p style="font-family:var(--label)">m4 goi1, zau2 bing1</p>
-      </div>
+      <div class="demo-body" id="demo-body"></div>
     </div>
   </div>
 </header>
 
 <section class="features" id="how"><div class="wrap">
-  <div class="feat-head">
+  <div class="feat-head reveal">
     <h2>练的是你自己的话，<br>不是别人的课程表。</h2>
     <p>被动词汇量 5000 的人不缺知识，缺的是把话说出口那一次。Yiko 只做这一件事。</p>
   </div>
   <div class="grid3">
-    <div class="feat">
+    <div class="feat reveal">
       <div class="no">01 · 开口</div>
       <h3>按住跟读，听自己和母语者的差别</h3>
       <p>松手就能交替回放两条录音。差别你自己听得出来，界面不下判决——没有分数，没有红叉。</p>
       <div class="wave" data-n="40" data-seed="1277" data-max="18"></div>
     </div>
-    <div class="feat">
+    <div class="feat reveal">
       <div class="no">02 · 记词</div>
       <h3>点句子里的词，它带着整句一起收好</h3>
       <p>生词本里的词永远不脱离你自己的那句话，所以你记住的是用法，不是词条。</p>
@@ -259,7 +301,7 @@ h1{font:400 52px/1.28 var(--sans);letter-spacing:.005em}
         <p>Let's sync up on this feature.</p>
       </div>
     </div>
-    <div class="feat">
+    <div class="feat reveal">
       <div class="no">03 · 攒下来</div>
       <h3>你的语料库，全是你说过的话</h3>
       <p>每练完一句就留在这里，只记跟读次数。开会前翻一遍，比背任何教材管用。</p>
@@ -272,16 +314,76 @@ h1{font:400 52px/1.28 var(--sans);letter-spacing:.005em}
   </div>
 </div></section>
 
+<section class="showcase" id="screens"><div class="wrap">
+  <div class="show-head reveal">
+    <h2>三屏就是全部产品。</h2>
+    <p>没有课程表，没有排行榜。输入一句中文，跟读，点词。剩下的都是你自己攒下来的东西。</p>
+  </div>
+  <div class="phones">
+    <div class="phone-col reveal">
+      <div class="phone">
+        <div class="p-status"><span>21:40</span><span>•ıl ▮</span></div>
+        <div class="p-body">
+          <div style="display:flex;justify-content:flex-end;padding-top:6px"><div class="p-seg"><u class="on">英语</u><u>粤语</u></div></div>
+          <div class="p-h1">今天有哪句话<br>没说出来？</div>
+          <div class="p-input">例：这周排期满了，最快下周三。</div>
+          <div class="p-fill"></div>
+          <div class="p-mic"><div class="wave" data-n="7" data-seed="991" data-max="12"></div><b>按住说中文</b></div>
+          <div class="p-fill"></div>
+        </div>
+        <div class="p-nav"><b class="on">练习</b><b>语料库 84</b><b>生词本 24</b></div>
+      </div>
+      <div class="phone-cap">采集 · 十秒内说一句</div>
+    </div>
+
+    <div class="phone-col reveal" style="animation-delay:.12s">
+      <div class="phone">
+        <div class="p-status"><span>21:41</span><span>•ıl ▮</span></div>
+        <div class="p-body">
+          <div class="p-zh" style="padding-top:8px">这周排期满了，最快下周三。</div>
+          <div class="p-en">We're <span class="hl">fully booked</span> this week — Wednesday next week is the earliest.</div>
+          <div class="p-flash">已收进生词本 · fully booked<u>撤销</u></div>
+          <div class="p-why"><b>WHY</b><p>「排期满」口语里说 fully booked，比 the schedule is full 自然。</p></div>
+          <div class="p-audio"><div class="p-play"></div><div class="wave" data-n="26" data-seed="7331" data-max="12"></div></div>
+          <div class="p-fill"></div>
+          <div class="p-hold"><div class="wave" data-n="8" data-seed="4519" data-max="11"></div><b>按住跟读</b></div>
+          <div style="height:4px"></div>
+        </div>
+        <div class="p-nav"><b class="on">练习</b><b>语料库 84</b><b>生词本 25</b></div>
+      </div>
+      <div class="phone-cap">结果 · 点词收进生词本</div>
+    </div>
+
+    <div class="phone-col reveal" style="animation-delay:.24s">
+      <div class="phone">
+        <div class="p-status"><span>21:44</span><span>•ıl ▮</span></div>
+        <div class="p-body">
+          <div style="padding-top:10px" class="p-word">sync up</div>
+          <div class="p-ipa">/ˌsɪŋk ˈʌp/ · 来自你 8 月 19 日的句子</div>
+          <div class="p-src"><i>来源句</i><div class="s-en">Let's <span class="hl">sync up</span> on this feature.</div><div class="s-zh">这个需求我们对齐一下。</div></div>
+          <div class="p-row"><span>循环跟读</span><span style="color:var(--faint)">慢速 · 常速</span></div>
+          <div class="p-audio"><div class="p-play"></div><div class="wave" data-n="26" data-seed="1277" data-max="12"></div></div>
+          <div class="p-fill"></div>
+          <div class="p-hold"><div class="wave" data-n="8" data-seed="3313" data-max="11"></div><b>按住磨这个词</b></div>
+          <div style="height:4px"></div>
+        </div>
+        <div class="p-nav"><b>练习</b><b>语料库 84</b><b class="on">生词本 25</b></div>
+      </div>
+      <div class="phone-cap">生词卡 · 词不离句</div>
+    </div>
+  </div>
+</div></section>
+
 <section class="privacy" id="privacy"><div class="wrap priv-in">
-  <div class="priv-l">
+  <div class="priv-l reveal">
     <div class="eyebrow">零后端 · BYOK</div>
     <h2>你的句子和录音，<br>从来没离开这台手机。</h2>
     <p>Yiko 没有服务器，也没有账号。你填自己的 API key，请求从你的手机直接发给模型；语料库、生词本、每一段录音都存在本地。会上说不出口那句话是你的私事，我们没打算知道。</p>
     <div class="chips">
-      <span class="chip">Grok</span><span class="chip">OpenAI</span><span class="chip">DeepSeek</span><span class="chip">OpenRouter</span><span class="chip dash">自定义 base URL</span>
+      <span class="chip">Grok</span><span class="chip">OpenAI</span><span class="chip">DeepSeek</span><span class="chip">Groq</span><span class="chip">Cerebras</span><span class="chip">Gemini</span><span class="chip">OpenRouter</span><span class="chip dash">自定义 base URL</span>
     </div>
   </div>
-  <div class="flow">
+  <div class="flow reveal">
     <h4>数据流向</h4>
     <div class="frow"><span class="dot"></span><b>你的手机</b><span class="line"></span><i>中文 / 录音</i></div>
     <div class="frow"><span class="dot grey"></span><b style="font-family:var(--label)">你选的模型 API</b><span class="line"></span><i>英文 / 粤语</i></div>
@@ -292,9 +394,9 @@ h1{font:400 52px/1.28 var(--sans);letter-spacing:.005em}
 </div></section>
 
 <section class="wrap fin">
-  <h2>下一次开会前，先说一遍。</h2>
-  <div class="fin-ctas">
-    <a class="btn-main" href="https://dl.yiko.app/yiko.apk"><b>下载 Android 内测版</b><span>v0.2.0 · 11 MB</span></a>
+  <h2 class="reveal">下一次开会前，先说一遍。</h2>
+  <div class="fin-ctas reveal">
+    <a class="btn-main" href="https://dl.yiko.app/yiko.apk"><b>下载 Android 内测版</b><span>v0.2.1 · 11 MB</span></a>
     <div class="ios-pill"><span>iOS 开发中 —</span><a href="mailto:hi@yiko.app?subject=iOS%20waitlist">通知我</a></div>
   </div>
   <div class="yiko">Y·I·K·O</div>
@@ -303,18 +405,64 @@ h1{font:400 52px/1.28 var(--sans);letter-spacing:.005em}
 </section>
 
 <script>
-// 与设计稿同款的确定性伪随机波形
-document.querySelectorAll('.wave').forEach(function(el){
+// 波形：确定性伪随机高度 + 每根随机相位的常态律动（design v2）
+function buildWave(el){
   var n = +el.dataset.n, s = +el.dataset.seed, max = +el.dataset.max;
+  el.innerHTML = '';
   for (var i = 0; i < n; i++) {
     s = (s * 9301 + 49297) % 233280;
     var env = Math.sin(i / (n - 1) * Math.PI) * 0.55 + 0.45;
     var h = Math.round(3 + (max - 3) * (s / 233280) * env);
     var bar = document.createElement('s');
     bar.style.height = h + 'px';
+    bar.style.animationDelay = (-(s % 2600)) + 'ms';
     el.appendChild(bar);
   }
+}
+document.querySelectorAll('.wave').forEach(buildWave);
+
+// 滚入渐起
+var io = new IntersectionObserver(function(es){
+  es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: .15 });
+document.querySelectorAll('.reveal:not(.in)').forEach(function(el){ io.observe(el); });
+
+// hero 转换演示：4.2s 自动轮换 例句A / 例句B / 粤语，右上角可点切
+var DEMOS = [
+  { zh:'这周排期满了，最快下周三，急的话我可以调一下。',
+    en:'We\'re <span class="hl">fully booked</span> this week — Wednesday next week is the earliest, but I can move things around if it\'s urgent.',
+    yue:false, jyut:'', why:'「排期满」口语里说 fully booked，比 the schedule is full 自然。' },
+  { zh:'这个需求我们对齐一下。',
+    en:'Let\'s <span class="hl">sync up</span> on this feature.',
+    yue:false, jyut:'', why:'align 偏「达成一致」，同步信息用 sync up。' },
+  { zh:'谢谢，帮我去冰。',
+    en:'<span class="hl">唔該</span>，走冰。',
+    yue:true, jyut:'m4 goi1, zau2 bing1', why:'点单场景粤语说「走冰」，唔該既是谢谢也是劳驾。' }
+];
+var demoIdx = 0, demoTimer = null;
+var body = document.getElementById('demo-body');
+var tabs = document.getElementById('demo-tabs');
+function renderDemo(i){
+  demoIdx = i;
+  var d = DEMOS[i];
+  tabs.querySelectorAll('u').forEach(function(u,j){ u.classList.toggle('on', j===i); });
+  body.style.animation = 'none'; void body.offsetWidth; body.style.animation = '';
+  body.innerHTML =
+    '<div class="demo-zh">' + d.zh + '</div><hr>' +
+    '<div class="demo-en' + (d.yue ? ' yue' : '') + '">' + d.en + '</div>' +
+    (d.jyut ? '<div class="demo-jyut">' + d.jyut + '</div>' : '') +
+    '<div class="why"><b>WHY</b><p>' + d.why + '</p></div>' +
+    '<div class="audio"><div class="play"></div><div class="audio-mid"><i>母语者发音</i><div class="wave" data-n="52" data-seed="' + (7331+i*997) + '" data-max="22"></div></div><div class="speed"><u>0.7x</u><u class="on">1x</u></div></div>' +
+    '<div class="hold"><div class="wave" data-n="16" data-seed="4519" data-max="26"></div><b>按住跟读</b></div>';
+  body.querySelectorAll('.wave').forEach(buildWave);
+}
+function nextDemo(){ renderDemo((demoIdx + 1) % DEMOS.length); }
+function armTimer(){ if (demoTimer) clearInterval(demoTimer); demoTimer = setInterval(nextDemo, 4200); }
+tabs.querySelectorAll('u').forEach(function(u){
+  u.addEventListener('click', function(){ renderDemo(+u.dataset.i); armTimer(); });
 });
+renderDemo(0);
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) armTimer();
 </script>
 </body>
 </html>
